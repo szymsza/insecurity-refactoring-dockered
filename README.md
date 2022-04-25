@@ -1,4 +1,4 @@
-# Insecurity Refactoring - Dockered
+# Insecurity Refactoring - Dockerized
 This repository provides a Dockerfile and some simple scripts to run [fschuckert/insecurity-refactoring](https://github.com/fschuckert/insecurity-refactoring)
 
 ## Usage
