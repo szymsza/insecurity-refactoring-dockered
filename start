@@ -1,24 +1,23 @@
-#!/bin/fish
+#!/bin/bash
 
 # USAGE: ./start        for application start
 #        ./start --s    for shell start
 
 #        ./data directory gets mounted as /home/data
 
-# CD to current folder
-set DIR (cd (dirname (status -f)); and pwd)
+# CD to script directory
+cd "$(dirname "$0")"
 
-function error
-  echo "Usage: start (--s | --shell)"
-  echo "-s Shell only"
-  exit 1
-end
+if [ $# -eq 0 ]; then
+   docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash -c "cd insecurity-refactoring/InsecurityRefactoring && ./start.sh";
+   exit 0;
+fi
 
-set -l options (fish_opt -s s -l shell)
-argparse $options -- $argv
+if [ "$1" == "-s" ]; then
+  docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash;
+  exit 0;
+fi
 
-if test "$_flag_s" = "--shell"
-  docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash
-else
-  docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash -c "cd insecurity-refactoring/InsecurityRefactoring && ./start.sh"
-end
+echo "Usage: ./start (-s)"
+echo "-s Shell only"
+exit 1
