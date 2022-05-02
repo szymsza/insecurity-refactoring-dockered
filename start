@@ -8,16 +8,19 @@
 # CD to script directory
 cd "$(dirname "$0")"
 
+# No flags -> GUI
 if [ $# -eq 0 ]; then
    docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash -c "cd insecurity-refactoring/InsecurityRefactoring && ./start.sh";
    exit 0;
 fi
 
+# -s flag -> Shell
 if [ "$1" == "-s" ]; then
   docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash;
   exit 0;
 fi
 
+# Something else -> help text
 echo "Usage: ./start (-s)"
 echo "-s Shell only"
 exit 1
