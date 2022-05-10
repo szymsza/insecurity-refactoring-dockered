@@ -57,7 +57,7 @@ RUN git clone https://github.com/fschuckert/insecurity-refactoring.git
 RUN cd insecurity-refactoring && ./compile_all.sh
 RUN cd insecurity-refactoring/InsecurityRefactoring && mvn package
 
-# Create a simple shell to run the tool
+# Create a simple script to run the tool
 RUN cd insecurity-refactoring/InsecurityRefactoring && echo "sh ./run_insec.sh -g" > start.sh && chmod +x start.sh
 
 # Install fonts
@@ -66,7 +66,7 @@ RUN apk add ttf-dejavu
 
 
 # --- ENABLE GUI APPLICATIONS
-# Important: Only programs ran under `developer` account work with GUI (therefore no sudo)
+# Important: Only programs run under `developer` account work with GUI (therefore no sudo)
 RUN apk add sudo
 RUN export uid=1000 gid=1000 && \
     mkdir -p /home/developer && \
