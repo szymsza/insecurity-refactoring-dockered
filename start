@@ -1,22 +1,56 @@
 #!/bin/bash
 
-# USAGE: ./start        for application start
-#        ./start --s    for shell start
+# USAGE: ./start            to start the tool from the official repository
+#        ./start -s         to start a shell inside the container
+#
+#        ./start -b [path]  to build a custom fork of the tool...
+#        ./start -r [path]  to rebuild a custom fork of the tool (maven only)...      (for repeated rebuilds, opening a shell inside the container and running `mvn package` directly will be faster thanks to caching)
+#        ./start -e [path]  to execute a custom fork of the tool...
+#                                 ...where path is a relative path inside `data` directory, defaulting to `insecurity-refactoring`
 
 #        ./data directory gets mounted as /home/data
 
 # CD to script directory
 cd "$(dirname "$0")"
 
+INTERNAL_DATA_PATH="/home/data"
+MAIN_COMMAND="docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:$INTERNAL_DATA_PATH itsec /bin/bash"
+
 # No flags -> GUI
 if [ $# -eq 0 ]; then
-   docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash -c "cd insecurity-refactoring/InsecurityRefactoring && ./start.sh";
-   exit 0;
+  eval "$MAIN_COMMAND -c 'cd insecurity-refactoring/InsecurityRefactoring && ./start.sh'"
+  exit 0;
 fi
 
 # -s flag -> Shell
 if [ "$1" == "-s" ]; then
-  docker run -it --network=host --env DISPLAY=$DISPLAY --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -v $PWD/data:/home/data itsec /bin/bash;
+  eval "$MAIN_COMMAND";
+  exit 0;
+fi
+
+if [ $# -lt 2 ]; then
+  CUSTOM_FORK_PATH="insecurity-refactoring";
+else
+  CUSTOM_FORK_PATH="$2"
+fi
+
+CUSTOM_FORK_PATH_CD="cd $INTERNAL_DATA_PATH/$CUSTOM_FORK_PATH"
+
+# -b flag -> Build custom fork
+if [ "$1" == "-b" ]; then
+  eval "$MAIN_COMMAND -c '$CUSTOM_FORK_PATH_CD && ./compile_all.sh && cd InsecurityRefactoring && mvn package && echo \"sh ./run_insec.sh -g\" > start && chmod +x start'"
+  exit 0;
+fi
+
+# -r flag -> Rebuild custom fork
+if [ "$1" == "-r" ]; then
+  eval "$MAIN_COMMAND -c '$CUSTOM_FORK_PATH_CD && cd InsecurityRefactoring && mvn package'"
+  exit 0;
+fi
+
+# -e flag -> Execut custom fork
+if [ "$1" == "-e" ]; then
+  eval "$MAIN_COMMAND -c '$CUSTOM_FORK_PATH_CD && cd InsecurityRefactoring && ./start'"
   exit 0;
 fi
 
