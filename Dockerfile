@@ -28,7 +28,7 @@ RUN apk --no-cache add openjdk11
 RUN apk add --no-cache maven bash
 
 # PHP
-RUN apk add --no-cache php7 php7-dev
+RUN apk add --no-cache php7 php7-dev php7-tokenizer
 RUN echo "extension=ast.so" >> /etc/php7/php.ini
 
 # CURL
