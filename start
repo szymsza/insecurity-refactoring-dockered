@@ -38,7 +38,7 @@ CUSTOM_FORK_PATH_CD="cd $INTERNAL_DATA_PATH/$CUSTOM_FORK_PATH"
 
 # -b flag -> Build custom fork
 if [ "$1" == "-b" ]; then
-  eval "$MAIN_COMMAND -c '$CUSTOM_FORK_PATH_CD && ./compile_all.sh && cd InsecurityRefactoring && mvn package && echo \"sh ./run_insec.sh -g\" > start && chmod +x start'"
+  eval "$MAIN_COMMAND -c '$CUSTOM_FORK_PATH_CD && ./compile_all.sh && cd InsecurityRefactoring && mvn package && echo \"mvn package && ./start\" > restart && chmod +x restart && echo \"sh ./run_insec.sh -g\" > start && chmod +x start'"
   exit 0;
 fi
 

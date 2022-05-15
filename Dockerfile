@@ -58,7 +58,7 @@ RUN cd insecurity-refactoring && ./compile_all.sh
 RUN cd insecurity-refactoring/InsecurityRefactoring && mvn package
 
 # Create a simple script to run the tool
-RUN cd insecurity-refactoring/InsecurityRefactoring && echo "sh ./run_insec.sh -g" > start && chmod +x start
+RUN cd insecurity-refactoring/InsecurityRefactoring && echo "mvn package && ./start" > restart && chmod +x restart && echo "sh ./run_insec.sh -g" > start && chmod +x start
 
 # Install fonts
 RUN apk add ttf-dejavu
