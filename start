@@ -55,6 +55,10 @@ if [ "$1" == "-e" ]; then
 fi
 
 # Something else -> help text
-echo "Usage: ./start (-s)"
-echo "-s Shell only"
+echo "Usage: ./start [-s] [-bre [path]]"
+echo " -s Shell only"
+echo " -b Build a custom fork of the tool"
+echo " -r Rebuild a custom fork of the tool (maven)"
+echo " -e Execute a custom fork of the tool"
+echo " [path] A relative path inside data directory, defaulting to insecurity-refactoring"
 exit 1
