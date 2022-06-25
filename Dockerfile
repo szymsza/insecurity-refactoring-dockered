@@ -50,6 +50,9 @@ RUN apk add py3-distutils-extra py3-setuptools
 RUN pip3 install graphviz
 #RUN apk add libgraphviz-dev pkg-config
 
+# sdiff
+RUN apk add diffutils
+
 
 
 # --- GET PROJECT
