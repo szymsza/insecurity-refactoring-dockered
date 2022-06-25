@@ -66,6 +66,9 @@ RUN cd insecurity-refactoring/InsecurityRefactoring && echo "mvn package && ./st
 # Install fonts
 RUN apk add ttf-dejavu
 
+# PHP extensions
+RUN apk add php-json php7-openssl
+
 
 
 # --- ENABLE GUI APPLICATIONS
