@@ -48,7 +48,7 @@ if [ "$1" == "-r" ]; then
   exit 0;
 fi
 
-# -e flag -> Execut custom fork
+# -e flag -> Execute custom fork
 if [ "$1" == "-e" ]; then
   eval "$MAIN_COMMAND -c '$CUSTOM_FORK_PATH_CD && cd InsecurityRefactoring && ./start'"
   exit 0;
