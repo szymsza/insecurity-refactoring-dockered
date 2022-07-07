@@ -18,7 +18,7 @@ MAIN_COMMAND="docker run -it --network=host --env DISPLAY=$DISPLAY --privileged 
 
 # No flags -> GUI
 if [ $# -eq 0 ]; then
-  eval "$MAIN_COMMAND -c 'cd insecurity-refactoring/InsecurityRefactoring && ./start.sh'"
+  eval "$MAIN_COMMAND -c 'cd insecurity-refactoring/InsecurityRefactoring && ./start'"
   exit 0;
 fi
 
